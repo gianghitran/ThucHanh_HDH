@@ -10,8 +10,10 @@ fi
 student_id=$1
 
 # Doc file csv theo IFS 
+found=0
 while IFS=';' read -r id name grade; do
     if [ "$id" == "$student_id" ]; then
+        ((found++))
         echo "THONG TIN SINH VIEN CO ID $student_id" 
         echo "Student_ID: $id"
         echo "Name: $name"
@@ -33,10 +35,13 @@ while IFS=';' read -r id name grade; do
         else
             echo "Diem chu: D/F"
         fi
-        exit 0
+        
     fi
 done < gradebook.csv
 
 #Khong tim thay SV
+if [ "$found" == 0 ]; then
 echo "Khong co sinh vien voi ID: $student_id"
 exit 1
+fi
+exit 0
